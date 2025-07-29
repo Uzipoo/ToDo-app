@@ -72,7 +72,7 @@ export const TodoApp = () => {
   const totalCount = todos.length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary-glow/5 to-background p-4">
+    <div className="min-h-screen bg-strawberry-pattern p-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8 animate-slide-up">
@@ -133,9 +133,6 @@ export const TodoApp = () => {
         <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
           {filteredTodos.length === 0 ? (
             <div className="text-center py-12 animate-bounce-in col-span-full">
-              <div className="mb-6 flex justify-center">
-                <Heart className="h-20 w-20 text-primary/40 fill-primary/40" />
-              </div>
               <h3 className="text-lg font-medium text-muted-foreground mb-2">
                 {filter === 'completed' ? 'No completed tasks' : 
                  filter === 'active' ? 'No active tasks' : 'No tasks yet'}

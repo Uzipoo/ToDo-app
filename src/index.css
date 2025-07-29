@@ -31,7 +31,10 @@ All colors MUST be HSL.
     --shadow-card: 0 4px 20px -4px hsl(330 81% 60% / 0.1);
 
     /* Animation variables */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Background patterns */
+  --strawberry-pattern: url('/src/assets/strawberry-pattern.png');
     --bounce-in: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --secondary: 320 50% 95%;
