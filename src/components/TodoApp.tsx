@@ -1,25 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TodoItem } from "./TodoItem";
 import { TodoInput } from "./TodoInput";
+import { TodoFilters } from "./TodoFilters";
 import { Card } from "@/components/ui/card";
-import { CheckCircle2, Circle, Trash2 } from "lucide-react";
+import { CheckCircle2, Circle, Heart, Sparkles } from "lucide-react";
 
 export interface Todo {
   id: string;
   text: string;
   completed: boolean;
   createdAt: Date;
+  dueDate?: Date;
 }
+
+export type FilterType = 'all' | 'active' | 'completed';
 
 export const TodoApp = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [filter, setFilter] = useState<FilterType>('all');
 
-  const addTodo = (text: string) => {
+  // Load todos from localStorage on mount
+  useEffect(() => {
+    const savedTodos = localStorage.getItem('todos');
+    if (savedTodos) {
+      const parsedTodos = JSON.parse(savedTodos);
+      // Convert date strings back to Date objects
+      const todosWithDates = parsedTodos.map((todo: any) => ({
+        ...todo,
+        createdAt: new Date(todo.createdAt),
+        dueDate: todo.dueDate ? new Date(todo.dueDate) : undefined,
+      }));
+      setTodos(todosWithDates);
+    }
+  }, []);
+
+  // Save todos to localStorage whenever todos change
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+
+  const addTodo = (text: string, dueDate?: Date) => {
     const newTodo: Todo = {
       id: crypto.randomUUID(),
       text,
       completed: false,
       createdAt: new Date(),
+      dueDate,
     };
     setTodos(prev => [newTodo, ...prev]);
   };
@@ -36,6 +62,12 @@ export const TodoApp = () => {
     setTodos(prev => prev.filter(todo => todo.id !== id));
   };
 
+  const filteredTodos = todos.filter(todo => {
+    if (filter === 'active') return !todo.completed;
+    if (filter === 'completed') return todo.completed;
+    return true;
+  });
+
   const completedCount = todos.filter(todo => todo.completed).length;
   const totalCount = todos.length;
 
@@ -44,11 +76,15 @@ export const TodoApp = () => {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8 animate-slide-up">
-          <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
-            My Tasks
-          </h1>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Heart className="h-8 w-8 text-primary fill-current" />
+            <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              My Pink Tasks
+            </h1>
+            <Sparkles className="h-6 w-6 text-primary animate-pulse" />
+          </div>
           <p className="text-muted-foreground">
-            Stay organized and get things done
+            Organize your life beautifully ✨
           </p>
         </div>
 
@@ -56,6 +92,13 @@ export const TodoApp = () => {
         <div className="mb-8 animate-slide-up" style={{ animationDelay: "0.1s" }}>
           <TodoInput onAdd={addTodo} />
         </div>
+
+        {/* Filters */}
+        {totalCount > 0 && (
+          <div className="mb-6 animate-slide-up" style={{ animationDelay: "0.15s" }}>
+            <TodoFilters currentFilter={filter} onFilterChange={setFilter} />
+          </div>
+        )}
 
         {/* Stats */}
         {totalCount > 0 && (
@@ -87,24 +130,26 @@ export const TodoApp = () => {
         )}
 
         {/* Todo List */}
-        <div className="space-y-3">
-          {todos.length === 0 ? (
-            <div className="text-center py-12 animate-bounce-in">
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
+          {filteredTodos.length === 0 ? (
+            <div className="text-center py-12 animate-bounce-in col-span-full">
               <div className="mb-4">
-                <CheckCircle2 className="h-16 w-16 text-muted-foreground/30 mx-auto" />
+                <Heart className="h-16 w-16 text-primary/30 mx-auto fill-current" />
               </div>
               <h3 className="text-lg font-medium text-muted-foreground mb-2">
-                No tasks yet
+                {filter === 'completed' ? 'No completed tasks' : 
+                 filter === 'active' ? 'No active tasks' : 'No tasks yet'}
               </h3>
               <p className="text-sm text-muted-foreground">
-                Add a task above to get started!
+                {filter === 'all' ? 'Add a task above to get started!' : 
+                 `Switch to another filter to see ${filter === 'completed' ? 'active' : 'completed'} tasks`}
               </p>
             </div>
           ) : (
-            todos.map((todo, index) => (
+            filteredTodos.map((todo, index) => (
               <div
                 key={todo.id}
-                className="animate-slide-up"
+                className="break-inside-avoid animate-slide-up"
                 style={{ animationDelay: `${0.3 + index * 0.05}s` }}
               >
                 <TodoItem
