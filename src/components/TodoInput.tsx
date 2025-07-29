@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,11 @@ export const TodoInput = ({ onAdd }: TodoInputProps) => {
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             placeholder="What beautiful thing will you accomplish? ✨"
-            className="border-0 bg-background/50 shadow-none focus-visible:ring-1 focus-visible:ring-primary/30 text-foreground placeholder:text-muted-foreground text-lg py-3 rounded-xl"
+            className={cn(
+              "border-2 bg-background/50 focus-visible:ring-2 focus-visible:ring-primary/50 text-foreground placeholder:text-muted-foreground text-lg py-3 rounded-xl transition-all duration-200 cursor-text",
+              isFocused ? "border-primary/50 bg-white shadow-lg" : "border-primary/20 hover:border-primary/30"
+            )}
+            autoFocus
           />
           {text && (
             <Heart className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary/50 animate-pulse fill-current" />
@@ -54,7 +59,7 @@ export const TodoInput = ({ onAdd }: TodoInputProps) => {
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
-            className="border-0 bg-background/30 shadow-none focus-visible:ring-1 focus-visible:ring-primary/30 text-foreground pl-10 rounded-xl"
+            className="border-2 border-primary/20 bg-background/30 hover:border-primary/30 focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary/50 text-foreground pl-10 rounded-xl cursor-pointer transition-all duration-200"
             placeholder="Due date (optional)"
           />
         </div>
@@ -63,8 +68,8 @@ export const TodoInput = ({ onAdd }: TodoInputProps) => {
           type="submit"
           disabled={!text.trim()}
           className={cn(
-            "w-full bg-gradient-primary hover:scale-105 transition-all duration-200 shadow-soft rounded-xl py-3 text-lg font-medium",
-            !text.trim() && "opacity-50 hover:scale-100"
+            "w-full bg-gradient-primary hover:scale-105 transition-all duration-200 shadow-soft rounded-xl py-3 text-lg font-medium cursor-pointer",
+            !text.trim() && "opacity-50 hover:scale-100 cursor-not-allowed"
           )}
         >
           <Plus className="h-5 w-5 mr-2" />
