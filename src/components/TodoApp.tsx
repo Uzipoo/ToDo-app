@@ -133,8 +133,8 @@ export const TodoApp = () => {
         <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
           {filteredTodos.length === 0 ? (
             <div className="text-center py-12 animate-bounce-in col-span-full">
-              <div className="mb-4">
-                <Heart className="h-16 w-16 text-primary/30 mx-auto fill-current" />
+              <div className="mb-6 flex justify-center">
+                <Heart className="h-20 w-20 text-primary/40 fill-current" />
               </div>
               <h3 className="text-lg font-medium text-muted-foreground mb-2">
                 {filter === 'completed' ? 'No completed tasks' : 
