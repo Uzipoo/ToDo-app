@@ -16,11 +16,15 @@ export const TodoInput = ({ onAdd }: TodoInputProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form submitted with text:", text);
     if (text.trim()) {
       const dueDateObj = dueDate ? new Date(dueDate) : undefined;
+      console.log("Adding todo:", text.trim(), dueDateObj);
       onAdd(text.trim(), dueDateObj);
       setText("");
       setDueDate("");
+    } else {
+      console.log("Text is empty, not adding todo");
     }
   };
 

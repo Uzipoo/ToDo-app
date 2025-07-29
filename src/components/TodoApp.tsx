@@ -40,6 +40,7 @@ export const TodoApp = () => {
   }, [todos]);
 
   const addTodo = (text: string, dueDate?: Date) => {
+    console.log("addTodo called with:", text, dueDate);
     const newTodo: Todo = {
       id: crypto.randomUUID(),
       text,
@@ -47,6 +48,7 @@ export const TodoApp = () => {
       createdAt: new Date(),
       dueDate,
     };
+    console.log("New todo created:", newTodo);
     setTodos(prev => [newTodo, ...prev]);
   };
 
