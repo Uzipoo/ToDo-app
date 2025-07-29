@@ -72,7 +72,7 @@ export const TodoApp = () => {
   const totalCount = todos.length;
 
   return (
-    <div className="min-h-screen bg-strawberry-pattern p-4">
+    <div className="min-h-screen bg-pink-sunburst-bg bg-cover bg-center bg-no-repeat p-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8 animate-slide-up">

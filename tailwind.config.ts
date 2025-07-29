@@ -115,7 +115,7 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-card': 'var(--gradient-card)',
-				'strawberry-pattern': 'var(--strawberry-pattern)'
+				'pink-sunburst-bg': 'var(--pink-sunburst-bg)'
 			}
 		}
 	},
